@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Environment secrets — never commit real credentials
+.env
+.env.local
+
+# Database
+begena.db
+*.sqlite
+*.sqlite3
+
+# ChromaDB vector store (large binary, regenerable)
+chroma_db/
+
+# Cache files
+bookFilesCache.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+page5_test.png
