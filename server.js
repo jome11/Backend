@@ -8,31 +8,11 @@ const progressRoutes = require('./src/progress');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Allowed origins:
-// - any localhost/127.0.0.1 port (flutter run -d chrome picks a random
-//   port each run, so a fixed port number would break on every restart)
-// - the deployed Netlify frontend
-const ALLOWED_ORIGINS = [
-  'https://peppy-longma-ac930d.netlify.app',
-];
-
+// TEMPORARY: fully open CORS to isolate whether origin-matching was the
+// actual problem. Reflects any origin — do not leave this in place once
+// the real issue is confirmed; replace with a proper allowlist afterward.
 app.use(cors({
-  origin: (origin, callback) => {
-    // TEMPORARY DEBUG LOGGING — remove once CORS is confirmed working
-    console.log('Incoming origin:', JSON.stringify(origin));
-    console.log('Allowed list:', JSON.stringify(ALLOWED_ORIGINS));
-
-    if (!origin) return callback(null, true); // same-origin / non-browser requests (curl, server-to-server)
-    const isLocalhost = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
-    const isAllowedDeployed = ALLOWED_ORIGINS.includes(origin);
-
-    console.log('isLocalhost:', isLocalhost, 'isAllowedDeployed:', isAllowedDeployed);
-
-    if (isLocalhost || isAllowedDeployed) {
-      return callback(null, true);
-    }
-    callback(new Error('Not allowed by CORS'));
-  },
+  origin: true,
   credentials: true,
 }));
 
