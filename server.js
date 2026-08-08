@@ -18,9 +18,16 @@ const ALLOWED_ORIGINS = [
 
 app.use(cors({
   origin: (origin, callback) => {
+    // TEMPORARY DEBUG LOGGING — remove once CORS is confirmed working
+    console.log('Incoming origin:', JSON.stringify(origin));
+    console.log('Allowed list:', JSON.stringify(ALLOWED_ORIGINS));
+
     if (!origin) return callback(null, true); // same-origin / non-browser requests (curl, server-to-server)
     const isLocalhost = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
     const isAllowedDeployed = ALLOWED_ORIGINS.includes(origin);
+
+    console.log('isLocalhost:', isLocalhost, 'isAllowedDeployed:', isAllowedDeployed);
+
     if (isLocalhost || isAllowedDeployed) {
       return callback(null, true);
     }
