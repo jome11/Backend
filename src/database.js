@@ -24,6 +24,12 @@ const initDB = async () => {
     console.log('Users table created');
   }
 
+  // Ensure google_id column exists for existing or newly created users tables
+  if (!(await db.schema.hasColumn('users', 'google_id'))) {
+    await db.schema.alterTable('users', t => t.string('google_id'));
+    console.log('Added google_id column');
+  }
+
   const progressExists = await db.schema.hasTable('progress');
   if (!progressExists) {
     await db.schema.createTable('progress', table => {

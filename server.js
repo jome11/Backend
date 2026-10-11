@@ -4,6 +4,7 @@ const cors = require('cors');
 
 const authRoutes = require('./src/auth');
 const progressRoutes = require('./src/progress');
+const oauthRoutes = require('./src/oauth');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +21,7 @@ app.use(express.json());
 
 // routes
 app.use('/api/auth', authRoutes);
+app.use('/api/auth', oauthRoutes);
 app.use('/api/progress', progressRoutes);
 
 // health check
